@@ -28,8 +28,8 @@
 		<script src="../../../dojo/dojo.js" 
 			data-dojo-config="async: true"></script>
 		<script>
-			require(["dgrid/extensions/addNewMultipleRowsGrid", "dgrid/List", "dgrid/OnDemandGrid", "dgrid/Selection", "dgrid/Keyboard", "dgrid/editor", "dijit/form/CheckBox", "dijit/form/TimeTextBox",  "dijit/form/Select","dojo/data/ObjectStore", "dijit/form/FilteringSelect", "dojo/_base/declare", "dgrid/test/data/base", "dojo/domReady!"],
-				function(addNewMultipleRowsGrid, List, Grid, Selection, Keyboard, editor, CheckBox, TimeTextBox, Select, ObjectStore, FilteringSelect, declare){
+			require(["dgrid/extensions/addNewMultipleRowsGrid", "dgrid/List", "dgrid/OnDemandGrid", "dgrid/Selection", "dgrid/Keyboard", "dgrid/editor", "dijit/form/CheckBox", "dijit/form/TimeTextBox",  "dijit/form/Select","dojo/data/ObjectStore", "dijit/form/FilteringSelect", "dijit/form/Button", "dojo/_base/declare", "dgrid/test/data/base", "dojo/domReady!"],
+				function(addNewMultipleRowsGrid, List, Grid, Selection, Keyboard, editor, CheckBox, TimeTextBox, Select, ObjectStore, FilteringSelect, Button, declare){
 
 					stateStore = new ObjectStore({
 						objectStore:testStateStore,
@@ -70,7 +70,12 @@
 							}
 						}, Select, "dblclick"),
 						editor({label: "Select Store", field: "state", editorArgs: {store: stateStore, maxHeight: 150, style: "width:120px;"}}, Select, "click"),
-						editor({label: "FilteringSelect Store", field: "state2", editorArgs: {store: stateStore, maxHeight: 150, style: "width:120px;"}}, FilteringSelect)
+						editor({label: "FilteringSelect Store", field: "state2", editorArgs: {store: stateStore, maxHeight: 150, style: "width:120px;"}}, FilteringSelect),
+						editor({label: "Remove", field: "Remove", editorArgs: {store: stateStore, label:"Remove", maxHeight: 150, style: "width:120px;",
+							onClick: function(evt) {
+								var cell = grid.cell(evt)
+								grid.removeDirtyRow(cell.row.id)
+							}}}, Button)
 						// Note that mileage may vary with editOn + widgets with multiple focusable children, e.g. dijit/Editor
 					];
 
