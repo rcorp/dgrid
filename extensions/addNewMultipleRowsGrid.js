@@ -1,5 +1,5 @@
-define(["dojo/_base/lang","dojo/_base/declare", "dgrid/OnDemandGrid", "dojo/store/Memory","dojo/store/Observable","dijit/form/Button", "dojo/aspect","dojo/date","dgrid/editor"],
-function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,editor){
+define(["dojo/_base/lang","dojo/_base/declare", "dgrid/OnDemandGrid", "dijit/form/Button", "dojo/aspect"],
+function(lang,declare, OnDemandGrid, Button, aspect){
 	/**
 	* This grid places a Add New button after all the rows have been rendered which is used to add new rows into
 	* the grid one at a time. This grid adds new rows using id's of each row instead of a counter	we used earlier
@@ -10,8 +10,6 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
 	var addNewRowsGrid = declare(null, {
 		constructor: function() {
 			var grid = this;
-			// To make it a part of form and use its value in form.get('value') function.
-			this.store= new Observable(new Memory());
 			this.labelAddNew = this.labelAddNew || 'Add New';
 			this.addNewRowWidget = '';
 			this._newlyAddedRowList = [];
@@ -89,6 +87,7 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
 					columnNames.push(grid.columns[eachColumn].field)
 				}
 				for(var i=0; i<value.length;i++){
+					console.log(value[i], 'value[i]')
 				 	this.addNewRowToGrid(value[i],true);
 				}
 				grid.contentNode.appendChild(grid.addNewRowWidget.domNode)
