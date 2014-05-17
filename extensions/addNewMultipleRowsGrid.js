@@ -7,7 +7,7 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
 	* columns of this grid.
 	* It is mandatory to add dgrid/extensions/DijitRegistry to use this Grid.
 	**/
-	var businessGrid = declare(null, {
+	var addNewRowsGrid = declare(null, {
 		constructor: function() {
 			var grid = this;
 			this.arrRowIds=[];
@@ -76,7 +76,7 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
 		},
 
 		/**
-		* Setvalue function of grid takes an array of object as parameter and clears the grid, checks whether the parameter
+		* Set value function of grid takes an array of object as parameter and clears the grid, checks whether the parameter
 		* is an array or not else gives an error message; if the parameter is valid then it makes the rows with the values 
 		* given in parameter. And in the end appends the Add New button.		
 		**/
@@ -93,6 +93,7 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
 					columnNames.push(grid.columns[eachColumn].field)
 				}
 				for(var i=0; i<value.length;i++){
+					console.log(value[i], 'value[i]')
 				 	this.addNewRowToGrid(value[i],true);
 				}
 				grid.contentNode.appendChild(grid.addNewRowWidget.domNode)
@@ -211,5 +212,5 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
 			grid.scrollTo({x:0,y:grid.contentNode.scrollHeight});
 		}
 	});
-	return businessGrid;
+	return addNewRowsGrid;
 });
