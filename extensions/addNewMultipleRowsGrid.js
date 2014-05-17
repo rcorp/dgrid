@@ -10,7 +10,6 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
 	var addNewRowsGrid = declare(null, {
 		constructor: function() {
 			var grid = this;
-			this.arrRowIds=[];
 			// To make it a part of form and use its value in form.get('value') function.
 			this.store= new Observable(new Memory());
 			this.labelAddNew = this.labelAddNew || 'Add New';
@@ -31,7 +30,6 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
 			var len= grid.defaultVisible;
 			grid.newRowIdCounter=0;
 			this.value= [];
-			grid.arrRowIds.splice(0);
 			// The array containing id's of all the rows is cleared.
 			// multiple refresh problem, if dirty is empty
 			// then create default Rows else use dirty
@@ -72,7 +70,6 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
         	var grid=this;
         	this.removeRow(this.row(id))
         	delete this.dirty[id];
-        	this.arrRowIds.splice(this.arrRowIds.indexOf(parseInt(id)),1)
 		},
 
 		/**
@@ -83,7 +80,6 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
 		_setValue:function(value){
 			this.cleanup();
 			this.contentNode.innerHTML = "";
-			this.arrRowIds.splice(0);
 			this.newRowIdCounter=0;
 			var grid = this;
 			var columnNames=[];
@@ -93,7 +89,6 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
 					columnNames.push(grid.columns[eachColumn].field)
 				}
 				for(var i=0; i<value.length;i++){
-					console.log(value[i], 'value[i]')
 				 	this.addNewRowToGrid(value[i],true);
 				}
 				grid.contentNode.appendChild(grid.addNewRowWidget.domNode)
@@ -161,19 +156,20 @@ function(lang,declare, OnDemandGrid, Memory,Observable,Button, aspect,date,edito
 		**/
 
 		/**
-		* We have kept newRowIdCounter because whenever we add a new row it should be added at the index pointed by 
-		* newRowIdCounter but we also need an array arrRowIds to implement the case to delete the deleted row id from the
-		* rows present in grid for reference to refresh the grid and retain all the rows already made.
+		* We have kept newRowIdCounter because whenever we add a new row it should be
+		* added at the index pointed by newRowIdCounter.
 		**/
 
 		addNewRowToGrid: function(value, onRefresh) {
 			// if evt.grid or grid itself
+			// can be called indpendently or by Add New button
+			// when called by Buttin we use evt.grid as 'this.grid'
+			// otherwise use 'this' directly
 			var grid = this.grid||this;
 			var refDomNode = grid.contentNode;
 			var obj = {};
 			// idProperty is used for using SocketStore
 			obj[grid.store.idProperty] = ++grid.newRowIdCounter;
-			this.arrRowIds.push(obj[grid.store.idProperty]);
 			// on adding a new row its id is pushed in the arrRowIds array.
 			if(value) {
 				// if value is defined

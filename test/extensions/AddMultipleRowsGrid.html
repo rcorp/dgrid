@@ -28,10 +28,10 @@
 		<script src="../../../dojo/dojo.js" 
 			data-dojo-config="async: true"></script>
 		<script>
-			require(["dgrid/extensions/addNewMultipleRowsGrid", "dgrid/List", "dgrid/OnDemandGrid", "dgrid/Selection", "dgrid/Keyboard", "dgrid/editor", "dijit/form/CheckBox", "dijit/form/TimeTextBox",  "dijit/form/Select","dojo/data/ObjectStore", "dijit/form/FilteringSelect", "dijit/form/Button", "dojo/_base/declare", "dgrid/test/data/base", "dojo/domReady!"],
-				function(addNewMultipleRowsGrid, List, Grid, Selection, Keyboard, editor, CheckBox, TimeTextBox, Select, ObjectStore, FilteringSelect, Button, declare){
+			require(["dgrid/extensions/addNewMultipleRowsGrid", "dgrid/List", "dgrid/OnDemandGrid", "dojo/store/Memory","dojo/store/Observable", "dgrid/Selection", "dgrid/Keyboard", "dgrid/editor", "dijit/form/CheckBox", "dijit/form/TimeTextBox",  "dijit/form/Select","dojo/data/ObjectStore", "dijit/form/FilteringSelect", "dijit/form/Button", "dojo/_base/declare", "dgrid/test/data/base", "dojo/domReady!"],
+				function(addNewMultipleRowsGrid, List, Grid, Memory, Observable, Selection, Keyboard, editor, CheckBox, TimeTextBox, Select, ObjectStore, FilteringSelect, Button, declare){
 
-					stateStore = new ObjectStore({
+					var stateStore = new ObjectStore({
 						objectStore:testStateStore,
 						labelProperty: "name"
 					});
@@ -74,6 +74,7 @@
 
 
 					window.grid = new (declare([Grid, addNewMultipleRowsGrid, Selection, Keyboard]))({
+						store: new Observable(new Memory()),
 						columns: columns,
 						selectionMode: "none"
 					}, "grid");
